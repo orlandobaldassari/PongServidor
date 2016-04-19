@@ -106,7 +106,6 @@ public class ServidorGamePong extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -115,7 +114,7 @@ public class ServidorGamePong extends javax.swing.JFrame {
         jTextPane1 = new javax.swing.JTextPane();
         jTextPane1.setEditable(false);
 
-        /*set image values*/
+       
         try {
             this.onImage = new ImageIcon(ImageIO.read(new File(this.getDiretorio() + "/img/server_on.png"))).getImage();
             this.offImage = new ImageIcon(ImageIO.read(new File(this.getDiretorio() + "/img/server_off.png"))).getImage();
