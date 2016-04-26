@@ -18,6 +18,8 @@ import javax.swing.ImageIcon;
 import javax.swing.text.DefaultCaret;
 import lib.ReadFile;
 
+//Teste de comunicação github.
+
 public class ServidorGamePong extends javax.swing.JFrame {
 
     private ServerSocket socket = null;
