@@ -218,8 +218,6 @@ public class ServidorGamePong {
                             }
                         }
                     }
-                } catch (SocketException ex) {
-
                 } catch (IOException ex) {
                     Logger.getLogger(ServidorGamePong.class.getName()).log(Level.SEVERE, "I/O Error.", ex);
                 } catch (ClassNotFoundException ex) {
