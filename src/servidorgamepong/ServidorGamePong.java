@@ -1,18 +1,13 @@
 package servidorgamepong;
 
-//import java.awt.event.KeyEvent;
 import java.io.*;
 import static java.lang.Thread.sleep;
 import java.net.*;
-//import java.security.NoSuchAlgorithmException;
-//import java.sql.*;
-//import java.text.SimpleDateFormat;
-//import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import javax.swing.text.DefaultCaret;
+
 
 public class ServidorGamePong {
 
