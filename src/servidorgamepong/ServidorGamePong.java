@@ -16,15 +16,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.text.DefaultCaret;
-import lib.ReadFile;
 
-//Teste de comunicação github.
-
-public class ServidorGamePong extends javax.swing.JFrame {
+public class ServidorGamePong {
 
     private ServerSocket socket = null;
-    private Image onImage;
-    private Image offImage;
 
     int posBarra1;
     int posBarra2;
@@ -41,21 +36,6 @@ public class ServidorGamePong extends javax.swing.JFrame {
     int altura = 600;
     Cliente player1 = null;
     Cliente player2 = null;
-
-    public ServidorGamePong() throws SQLException, NoSuchAlgorithmException {
-        initComponents();
-    }
-
-    private String getDiretorio() {
-        String caminho = "";
-        try {
-            caminho = ReadFile.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-            caminho = caminho.substring(1, caminho.lastIndexOf('/'));
-        } catch (URISyntaxException ex) {
-            ex.printStackTrace();
-        }
-        return caminho;
-    }
 
     /**
      * @param bola
@@ -106,97 +86,10 @@ public class ServidorGamePong extends javax.swing.JFrame {
             }
         }
     }
-
-    @SuppressWarnings("unchecked")
-    private void initComponents() {
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jInput1 = new javax.swing.JTextField(20);
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
-        jTextPane1.setEditable(false);
-
-       
-        try {
-            this.onImage = new ImageIcon(ImageIO.read(new File(this.getDiretorio() + "/img/server_on.png"))).getImage();
-            this.offImage = new ImageIcon(ImageIO.read(new File(this.getDiretorio() + "/img/server_off.png"))).getImage();
-        } catch (IOException ex) {
-            Logger.getLogger(ServidorGamePong.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        setIconImage(offImage);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-
-        });
-
-        jButton1.setText("Start");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    jButton1ActionPerformed(evt);
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(ServidorGamePong.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                setIconImage(onImage);
-            }
-
-        });
-
-        jButton2.setText("Stop");
-        jButton2.setEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-                setIconImage(offImage);
-            }
-
-        });
-        jScrollPane1.setViewportView(jTextPane1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane1)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton1)
-                                        .addComponent(jButton2)
-                                        .addGap(0, 226, Short.MAX_VALUE)))
-                        .addContainerGap())
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jButton1)
-                                .addComponent(jButton2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                        .addContainerGap()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addContainerGap())
-        );
-        pack();
-    }
-
-    private void setTextOnInput(String text) {
-        jTextPane1.setText(jTextPane1.getText() + text + "\n");
-        DefaultCaret caret = (DefaultCaret) jTextPane1.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-    }
+    //jButton1.setText("Start");
+    //jButton1ActionPerformed(evt);
+    //jButton2.setText("Stop");
+    //jButton2ActionPerformed(evt);
 
     private void sendARequest(Map<String, Object> request, String IP, int PORT) {
         try (Socket s = new Socket(IP, PORT)) {
@@ -215,7 +108,7 @@ public class ServidorGamePong extends javax.swing.JFrame {
         }
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException {
+    private void StartServer() {
         Thread envioThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -296,9 +189,7 @@ public class ServidorGamePong extends javax.swing.JFrame {
                     System.out.println("ERRO AO COLOCAR DELAY: " + erro);
                 }
                 try (ServerSocket ss = new ServerSocket(portaServidor)) {
-                    setTextOnInput("[SERVIDOR] servidor rodando na porta " + String.valueOf(portaServidor) + "...");
-                    jButton1.setEnabled(false);
-                    jButton2.setEnabled(true);
+                    System.out.println("[SERVIDOR] servidor rodando na porta " + String.valueOf(portaServidor) + "...");
                     socket = ss;
                     while (true) {
                         Socket sock = ss.accept();
@@ -314,17 +205,11 @@ public class ServidorGamePong extends javax.swing.JFrame {
                             if (player.equals("1")) {
                                 if (player1 == null) {
                                     player1 = new Cliente(ip, porta, "1");
-                                    jTextPane1.setText(
-                                            jTextPane1.getText() + "\n"
-                                            + ip + ":" + porta + " se conectou [player1]"
-                                    );
+                                    System.out.println(ip + ":" + porta + " se conectou [player1]");
                                 }
                             } else if (player2 == null) {
                                 player2 = new Cliente(ip, porta, "2");
-                                jTextPane1.setText(
-                                        jTextPane1.getText() + "\n"
-                                        + ip + ":" + porta + " se conectou [player2]"
-                                );
+                                System.out.println(ip + ":" + porta + " se conectou [player2]");
                             }
                             switch (action) {
                                 case "moverBarra":
@@ -349,7 +234,7 @@ public class ServidorGamePong extends javax.swing.JFrame {
                         }
                     }
                 } catch (SocketException ex) {
-                    
+
                 } catch (IOException ex) {
                     Logger.getLogger(ServidorGamePong.class.getName()).log(Level.SEVERE, "I/O Error.", ex);
                 } catch (ClassNotFoundException ex) {
@@ -359,10 +244,6 @@ public class ServidorGamePong extends javax.swing.JFrame {
 
         });
         recebimentoThread.start();
-    }
-
-    public void responseToOtherClient(String player) {
-
     }
 
     public void moverBarra(String player, int barraX, int barraY) {
@@ -375,48 +256,8 @@ public class ServidorGamePong extends javax.swing.JFrame {
         }
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        jTextPane1.setText(null);
-        jButton1.setEnabled(true);
-        jButton2.setEnabled(false);
-        if (socket != null) {
-            try {
-                socket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ServidorGamePong.class.getName()).log(Level.SEVERE, "I/O Error.", ex);
-            }
-        }
-    }
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {
-        if (socket != null) {
-            try {
-                socket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ServidorGamePong.class.getName()).log(Level.SEVERE, "I/O Error.", ex);
-            }
-        }
-    }
-
     public static void main(String args[]) {
-    
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    new ServidorGamePong().setVisible(true);
-                } catch (SQLException | NoSuchAlgorithmException ex) {
-                    Logger.getLogger(ServidorGamePong.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-        });
+        ServidorGamePong server = new ServidorGamePong();
+        server.StartServer();
     }
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JTextField jInput1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTextPane1;
 }
