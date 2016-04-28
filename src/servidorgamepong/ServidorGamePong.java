@@ -1,39 +1,35 @@
 package servidorgamepong;
 
-import java.awt.Image;
-import java.awt.event.KeyEvent;
+//import java.awt.event.KeyEvent;
 import java.io.*;
 import static java.lang.Thread.sleep;
 import java.net.*;
-import java.security.NoSuchAlgorithmException;
-import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+//import java.security.NoSuchAlgorithmException;
+//import java.sql.*;
+//import java.text.SimpleDateFormat;
+//import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.text.DefaultCaret;
+//import javax.swing.text.DefaultCaret;
 
 public class ServidorGamePong {
 
     private ServerSocket socket = null;
-
-    int posBarra1;
-    int posBarra2;
     int direcaoX = 0;
     int direcaoY = 0;
+    int posBarra1;
+    int posBarra2;
     int posBolaY;
     int posBolaX;
     int ponto = 0;
-    int pontuacaoA = 0;
-    int pontuacaoB = 0;
     int velocidadeBola = 15;
     int portaServidor = 5554;
     int largura = 790;
     int altura = 600;
+    int pontuacaoA = 0;
+    int pontuacaoB = 0;
     Cliente player1 = null;
     Cliente player2 = null;
 
@@ -112,7 +108,7 @@ public class ServidorGamePong {
                     try {
                         sleep(50);
                     } catch (InterruptedException erro) {
-                        System.out.println("ERRO AO COLOCAR DELAY: " + erro);
+                        System.out.println("ERRO: " + erro);
                     }
                     if (player1 != null && player2 != null) {
                         //verificações as colisões da bola com parede
@@ -180,10 +176,10 @@ public class ServidorGamePong {
                 try {
                     sleep(3);
                 } catch (InterruptedException erro) {
-                    System.out.println("ERRO AO COLOCAR DELAY: " + erro);
+                    System.out.println("ERRO: " + erro);
                 }
                 try (ServerSocket ss = new ServerSocket(portaServidor)) {
-                    System.out.println("[SERVIDOR] servidor rodando na porta " + String.valueOf(portaServidor) + "...");
+                    System.out.println("O servidor esta na porta " + String.valueOf(portaServidor) + "...");
                     socket = ss;
                     while (true) {
                         Socket sock = ss.accept();
