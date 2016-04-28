@@ -86,10 +86,6 @@ public class ServidorGamePong {
             }
         }
     }
-    //jButton1.setText("Start");
-    //jButton1ActionPerformed(evt);
-    //jButton2.setText("Stop");
-    //jButton2ActionPerformed(evt);
 
     private void sendARequest(Map<String, Object> request, String IP, int PORT) {
         try (Socket s = new Socket(IP, PORT)) {
@@ -119,7 +115,7 @@ public class ServidorGamePong {
                         System.out.println("ERRO AO COLOCAR DELAY: " + erro);
                     }
                     if (player1 != null && player2 != null) {
-                        //Todas as verificações para identificar as colisões com da bola com parede
+                        //verificações as colisões da bola com parede
                         if ((direcaoX == 0) && (posBolaX > 10)) {
                             posBolaX -= velocidadeBola;
                         } else {
@@ -144,9 +140,7 @@ public class ServidorGamePong {
                             ponto = 0;
                         }
                         /**
-                         * Verificando se a bola colidiu com a barra ou parede.
-                         * Se foi com a parede deve-se aumentar a pontuação do
-                         * Player Adversário.
+                         * Verifica se a bola colidiu na barra ou parede..
                          */
                         if (posBolaX >= ((largura / 4))) {
                             verificaBola(posBolaX, posBolaY, player1.barraX, player1.barraY);
@@ -193,7 +187,7 @@ public class ServidorGamePong {
                     socket = ss;
                     while (true) {
                         Socket sock = ss.accept();
-                        //RECEBE MENSAGEM DO CLIENTES
+
                         try (ObjectInputStream ois = new ObjectInputStream(sock.getInputStream())) {
                             Map<String, Object> request = (Map<String, Object>) ois.readObject();
                             String action = (String) request.get("action");
