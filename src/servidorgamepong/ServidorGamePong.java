@@ -106,7 +106,7 @@ public class ServidorGamePong {
                         System.out.println("ERRO: " + erro);
                     }
                     if (player1 != null && player2 != null) {
-                        //verificações as colisões da bola com parede
+                        
                         if ((direcaoX == 0) && (posBolaX > 10)) {
                             posBolaX -= velocidadeBola;
                         } else {
@@ -133,9 +133,9 @@ public class ServidorGamePong {
                         /**
                          * Verifica se a bola colidiu na barra ou parede..
                          */
-                        if (posBolaX >= ((largura / 4))) {
+                        if (posBolaX >= ((largura / 3))) {
                             verificaBola(posBolaX, posBolaY, player1.barraX, player1.barraY);
-                        } else if (posBolaX <= ((largura / 4))) {
+                        } else if (posBolaX <= ((largura / 3))) {
                             verificaBola(posBolaX, posBolaY, player2.barraX, player2.barraY);
                         } else {
                             ponto = 0;
